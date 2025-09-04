@@ -1,153 +1,328 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kishtedaar - Smart Loan & EMI Management</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(180deg, #000 0%, #111 100%);
-      color: white;
-      text-align: center;
-    }
-    header {
-      background: #000;
-      padding: 20px 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-    }
-    header h1 {
-      color: gold;
-      margin: 0;
-      font-size: 24px;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 12px;
-      font-size: 16px;
-    }
-    nav a:hover {
-      color: gold;
-    }
-    .hero {
-      padding: 60px 20px;
-    }
-    .hero h2 {
-      color: gold;
-      font-size: 30px;
-      margin-bottom: 10px;
-    }
-    .hero p {
-      font-size: 18px;
-      max-width: 500px;
-      margin: 10px auto;
-      line-height: 1.6;
-    }
-    .features {
-      text-align: left;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    .features h3 {
-      color: gold;
-      font-size: 22px;
-      margin-bottom: 15px;
-    }
-    .features ul {
-      list-style: disc;
-      padding-left: 20px;
-      line-height: 1.8;
-    }
-    .cta {
-      margin: 40px auto;
-      padding: 20px;
-      background: #222;
-      border-radius: 12px;
-      max-width: 500px;
-    }
-    .cta h3 {
-      color: gold;
-      font-size: 22px;
-      margin-bottom: 10px;
-    }
-    .cta button {
-      background: gold;
-      color: black;
-      border: none;
-      padding: 12px 25px;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .cta button:hover {
-      background: #d4af37;
-    }
-    footer {
-      margin-top: 40px;
-      padding: 20px;
-      background: #111;
-      font-size: 14px;
-      color: #aaa;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
+<title>Kishtedaar – Smart Loan & EMI App</title>
+<meta name="theme-color" content="#000000" />
+<style>
+  :root{
+    --bg:#0b0b0b; --bg2:#121212; --text:#f2f2f2; --muted:#bdbdbd;
+    --brand:#f1c232; --accent:#ffd84d; --danger:#ff6b6b; --ok:#38d39f;
+    --card:#161616; --border:#262626;
+  }
+  body.light{
+    --bg:#f7f7f7; --bg2:#ffffff; --text:#1a1a1a; --muted:#555;
+    --card:#ffffff; --border:#e6e6e6; --brand:#b8860b; --accent:#d4af37;
+  }
+  *{box-sizing:border-box} html,body{height:100%}
+  body{
+    margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:linear-gradient(180deg,var(--bg),var(--bg2));
+    color:var(--text);
+  }
+  a{color:inherit;text-decoration:none}
+  header{
+    position:sticky; top:0; z-index:10; background:var(--bg);
+    border-bottom:1px solid var(--border);
+  }
+  .nav{
+    max-width:1100px; margin:auto; display:flex; align-items:center;
+    justify-content:space-between; padding:14px 16px;
+  }
+  .brand{font-weight:800; font-size:22px; color:var(--brand)}
+  .navlinks a{margin:0 10px; padding:8px 10px; border-radius:10px}
+  .navlinks a:hover{background:var(--card)}
+  .right-controls{display:flex; gap:10px; align-items:center}
+  .btn, button{
+    background:var(--brand); color:#000; font-weight:700; border:0;
+    padding:10px 14px; border-radius:12px; cursor:pointer;
+  }
+  .btn.secondary{background:transparent; color:var(--text); border:1px solid var(--border)}
+  .btn.ghost{background:transparent;color:var(--brand);border:1px solid var(--brand)}
+  .btn.danger{background:var(--danger); color:#fff}
+  .container{max-width:1100px; margin:0 auto; padding:18px}
+  .grid{display:grid; gap:16px}
+  .card{background:var(--card); border:1px solid var(--border); border-radius:16px; padding:18px}
+  .section-title{font-size:22px; color:var(--accent); margin:6px 0 12px}
+  .muted{color:var(--muted)}
+  .two{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .three{grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media (max-width:800px){ .two,.three{grid-template-columns:1fr} .navlinks{display:none} }
+
+  /* forms */
+  label{font-size:14px;color:var(--muted)}
+  input,select,textarea{
+    width:100%; padding:12px 12px; margin-top:6px; border-radius:12px;
+    border:1px solid var(--border); background:transparent; color:var(--text);
+  }
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--brand)}
+  .row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media(max-width:700px){ .row{grid-template-columns:1fr} }
+
+  /* tables */
+  table{width:100%; border-collapse:collapse; border-radius:14px; overflow:hidden}
+  th,td{padding:10px 12px; border-bottom:1px solid var(--border); text-align:left}
+  th{background:var(--bg2); font-weight:700}
+  tr:hover td{background:rgba(255,255,255,0.03)}
+
+  /* hero */
+  .hero{padding:36px 18px 8px}
+  .hero h1{color:var(--brand); font-size:28px; margin:4px 0 10px}
+  .hero p{max-width:720px}
+
+  /* login box */
+  .role-badges{display:flex; gap:8px; flex-wrap:wrap}
+  .badge{padding:6px 10px; border-radius:999px; background:var(--bg2); border:1px solid var(--border)}
+  .stat{display:flex; align-items:center; gap:8px}
+  .stat b{font-size:20px}
+
+  /* print area for PDF */
+  @media print{
+    header,.no-print{display:none!important}
+    body{background:#fff;color:#000}
+    .card{border:1px solid #aaa}
+  }
+</style>
 </head>
 <body>
-  <header>
-    <h1>Kishtedaar</h1>
-    <nav>
-      <a href="#home">Home</a>
-      <a href="#features">Features</a>
-      <a href="#emi">EMI on Bill</a>
-      <a href="#contact">Contact</a>
+
+<header>
+  <div class="nav">
+    <div class="brand">Kishtedaar</div>
+    <nav class="navlinks no-print">
+      <a href="#home" data-i18n="nav.home">Home</a>
+      <a href="#features" data-i18n="nav.features">Features</a>
+      <a href="#calculator" data-i18n="nav.calculator">EMI Calculator</a>
+      <a href="#dashboard" data-i18n="nav.dashboard">Dashboard</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
     </nav>
-  </header>
+    <div class="right-controls no-print">
+      <select id="lang" class="btn secondary" style="padding:8px 10px">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+      </select>
+      <button id="themeBtn" class="btn ghost" title="Toggle theme">🌓</button>
+      <button id="loginBtn" class="btn">Login / Signup</button>
+      <button id="logoutBtn" class="btn danger" style="display:none">Logout</button>
+    </div>
+  </div>
+</header>
 
-  <section class="hero" id="home">
-    <h2>Smart Loan & EMI Management App</h2>
-    <p>Track your loans, manage EMIs & pay bills with EMI – all in one premium app.</p>
-  </section>
+<!-- HERO -->
+<section id="home" class="container hero">
+  <h1 data-i18n="hero.title">Smart Loan & EMI Management App</h1>
+  <p class="muted" data-i18n="hero.desc">
+    Track loans, manage EMIs & earn rewards – all in one premium app.
+  </p>
+  <div class="grid three">
+    <div class="card stat"><span>📅</span><div><b id="statLoans">0</b><div class="muted" data-i18n="stat.activeLoans">Active Loans</div></div></div>
+    <div class="card stat"><span>🏆</span><div><b id="statPoints">0</b><div class="muted" data-i18n="stat.points">Reward Points</div></div></div>
+    <div class="card stat"><span>✅</span><div><b id="statPaid">0</b><div class="muted" data-i18n="stat.paidEmi">EMIs Paid</div></div></div>
+  </div>
+</section>
 
-  <section class="features" id="features">
-    <h3>Key Features</h3>
-    <ul>
-      <li>Easy EMI Calculator</li>
-      <li>Loan Tracking & Smart Reminders</li>
-      <li>Reward Points for Timely Payments</li>
-      <li>Instant Loan Closure & History</li>
-      <li>Multi-language (English & Hindi)</li>
-    </ul>
-  </section>
+<!-- FEATURES -->
+<section id="features" class="container">
+  <div class="grid two">
+    <div class="card">
+      <h3 class="section-title" data-i18n="features.key">Key Features</h3>
+      <ul class="muted" style="line-height:1.8">
+        <li data-i18n="features.calc">Easy EMI Calculator</li>
+        <li data-i18n="features.track">Loan Tracking & Reminders</li>
+        <li data-i18n="features.rewards">Reward Points for Timely Payments</li>
+        <li data-i18n="features.print">Download/Print Statements (PDF)</li>
+        <li data-i18n="features.lang">English/Hindi + Light/Dark Mode</li>
+        <li data-i18n="features.roles">Separate Seller & Customer Dashboards</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 class="section-title" data-i18n="login.head">Login / Signup</h3>
+      <div id="authArea">
+        <div class="row">
+          <div>
+            <label data-i18n="login.name">Full Name</label>
+            <input id="name" placeholder="Your name"/>
+          </div>
+          <div>
+            <label data-i18n="login.role">Select Role</label>
+            <select id="role">
+              <option value="customer" data-i18n="role.customer">Customer</option>
+              <option value="seller" data-i18n="role.seller">Seller</option>
+            </select>
+          </div>
+        </div>
+        <div class="row" style="margin-top:10px">
+          <div>
+            <label>Email</label>
+            <input id="email" type="email" placeholder="you@example.com"/>
+          </div>
+          <div>
+            <label data-i18n="login.mobile">Mobile</label>
+            <input id="mobile" type="tel" placeholder="+91xxxxxxxxxx"/>
+          </div>
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn" onclick="saveUser()" data-i18n="login.save">Save & Continue</button>
+          <button class="btn secondary" onclick="demoFill()">Demo Fill</button>
+          <button class="btn ghost" onclick="requestNotif()">Allow Reminders 🔔</button>
+        </div>
+        <p class="muted" style="margin-top:8px" data-i18n="login.note">
+          We do simple local login (no server). Your data is stored in your device.
+        </p>
+      </div>
+      <div id="welcome" style="display:none">
+        <p><b id="welcomeName"></b> (<span id="welcomeRole"></span>)</p>
+        <div class="role-badges">
+          <span class="badge">Local Storage</span>
+          <span class="badge">Offline First</span>
+          <span class="badge">No Password (Demo)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <section class="features" id="emi">
-    <h3>EMI on Bill Payments</h3>
-    <p>Convert your utility bills, shopping bills, or any major expense into easy monthly installments with one click.</p>
-    <ul>
-      <li>Electricity, Water & Gas Bills</li>
-      <li>Shopping & Electronics Purchases</li>
-      <li>Medical & Emergency Payments</li>
-    </ul>
-  </section>
+<!-- EMI CALCULATOR -->
+<section id="calculator" class="container">
+  <div class="card">
+    <h3 class="section-title" data-i18n="calc.title">EMI Calculator</h3>
+    <div class="row">
+      <div>
+        <label data-i18n="calc.amount">Loan Amount (₹)</label>
+        <input id="amt" type="number" value="100000" min="0" />
+      </div>
+      <div>
+        <label data-i18n="calc.rate">Interest Rate (% per annum)</label>
+        <input id="rate" type="number" value="12" min="0" step="0.01" />
+      </div>
+    </div>
+    <div class="row" style="margin-top:10px">
+      <div>
+        <label data-i18n="calc.tenure">Tenure (months)</label>
+        <input id="tenure" type="number" value="12" min="1" />
+      </div>
+      <div>
+        <label data-i18n="calc.start">Start Date</label>
+        <input id="startDate" type="date" />
+      </div>
+    </div>
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" onclick="calcEMI()" data-i18n="calc.btn">Calculate EMI</button>
+      <button class="btn ghost" onclick="addLoan()" data-i18n="calc.add">Add as New Loan</button>
+      <div class="muted" id="emiResult" style="align-self:center;margin-left:auto"></div>
+    </div>
+  </div>
+</section>
 
-  <section class="cta">
-    <h3>Start Managing Your Loans Today</h3>
-    <button>Download Now</button>
-  </section>
+<!-- DASHBOARD -->
+<section id="dashboard" class="container">
+  <div class="grid two">
+    <div class="card">
+      <h3 class="section-title" data-i18n="dash.myLoans">My Loans</h3>
+      <table id="loanTable">
+        <thead>
+          <tr>
+            <th>#</th><th data-i18n="t.amount">Amount</th><th data-i18n="t.rate">Rate</th>
+            <th data-i18n="t.tenure">Tenure</th><th data-i18n="t.emi">EMI</th>
+            <th data-i18n="t.start">Start</th><th data-i18n="t.actions">Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div class="muted" style="margin-top:8px"><span data-i18n="dash.tip">
+        Tip: Click “Pay EMI” to mark a month as paid. On-time payments earn reward points.
+      </span></div>
+    </div>
 
-  <section class="features" id="contact">
-    <h3>Contact Us</h3>
-    <p>Email: support@kishtedaar.com</p>
-    <p>Phone: +91 98765 43210</p>
-  </section>
+    <div class="card">
+      <h3 class="section-title" data-i18n="dash.history">Payment History</h3>
+      <table id="payTable">
+        <thead>
+          <tr>
+            <th>#</th><th data-i18n="t.loan">Loan</th><th data-i18n="t.date">Date</th>
+            <th data-i18n="t.amount">Amount</th><th data-i18n="t.status">Status</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost no-print" onclick="downloadCSV()" data-i18n="dash.csv">Download CSV</button>
+        <button class="btn no-print" onclick="printStatement()" data-i18n="dash.pdf">Print / Save as PDF</button>
+        <button class="btn secondary no-print" onclick="scheduleReminder()" data-i18n="dash.remind">Schedule EMI Reminder (demo)</button>
+      </div>
+    </div>
 
-  <footer>
-    &copy; 2025 Kishtedaar. All rights reserved.
-  </footer>
-</body>
-</html>
+    <!-- SELLER PANEL -->
+    <div class="card" id="sellerPanel" style="display:none">
+      <h3 class="section-title" data-i18n="seller.panel">Seller Panel</h3>
+      <p class="muted" data-i18n="seller.desc">View customer loans received today and approve/reject (demo).</p>
+      <div id="sellerList"></div>
+      <button class="btn" onclick="seedSampleLoans()">Load Sample Requests</button>
+    </div>
+
+    <!-- REWARDS -->
+    <div class="card">
+      <h3 class="section-title" data-i18n="rewards.title">Rewards</h3>
+      <p class="muted" data-i18n="rewards.desc">
+        Pay EMI on or before due date to earn <b>10 points</b> each time. Redeem 100 points for ₹100 discount (demo).
+      </p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost" onclick="redeemPoints(100)">Redeem 100</button>
+        <button class="btn secondary" onclick="addPoints(10)">Add 10 (test)</button>
+        <div style="align-self:center" class="muted">Current: <b id="pointsNow">0</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="container">
+  <div class="card">
+    <h3 class="section-title" data-i18n="contact.title">Contact Us</h3>
+    <p>Email: <a href="mailto:support@kishtedaar.com">support@kishtedaar.com</a></p>
+    <p data-i18n="contact.phone">Phone: +91 98765 43210</p>
+  </div>
+</section>
+
+<footer class="container" style="text-align:center; color:var(--muted)">
+  © 2025 Kishtedaar. All rights reserved.
+</footer>
+
+<script>
+/* ------------- i18n (EN/HI) ------------- */
+const dict = {
+  en:{
+    "nav.home":"Home","nav.features":"Features","nav.calculator":"EMI Calculator","nav.dashboard":"Dashboard","nav.contact":"Contact",
+    "hero.title":"Smart Loan & EMI Management App","hero.desc":"Track loans, manage EMIs & earn rewards – all in one premium app.",
+    "stat.activeLoans":"Active Loans","stat.points":"Reward Points","stat.paidEmi":"EMIs Paid",
+    "features.key":"Key Features","features.calc":"Easy EMI Calculator","features.track":"Loan Tracking & Reminders","features.rewards":"Reward Points for Timely Payments","features.print":"Download/Print Statements (PDF)","features.lang":"English/Hindi + Light/Dark Mode","features.roles":"Separate Seller & Customer Dashboards",
+    "login.head":"Login / Signup","login.name":"Full Name","login.role":"Select Role","login.mobile":"Mobile","login.save":"Save & Continue","login.note":"We do simple local login (no server). Your data is stored in your device.",
+    "role.customer":"Customer","role.seller":"Seller",
+    "calc.title":"EMI Calculator","calc.amount":"Loan Amount (₹)","calc.rate":"Interest Rate (% per annum)","calc.tenure":"Tenure (months)","calc.start":"Start Date","calc.btn":"Calculate EMI","calc.add":"Add as New Loan",
+    "dash.myLoans":"My Loans","dash.history":"Payment History","dash.tip":"Tip: Click “Pay EMI” to mark a month as paid. On-time payments earn reward points.","dash.csv":"Download CSV","dash.pdf":"Print / Save as PDF","dash.remind":"Schedule EMI Reminder (demo)",
+    "seller.panel":"Seller Panel","seller.desc":"View customer loans received today and approve/reject (demo).",
+    "rewards.title":"Rewards","rewards.desc":"Pay EMI on or before due date to earn <b>10 points</b> each time. Redeem 100 points for ₹100 discount (demo).",
+    "contact.title":"Contact Us","contact.phone":"Phone: +91 98765 43210",
+    "t.amount":"Amount","t.rate":"Rate","t.tenure":"Tenure","t.emi":"EMI","t.start":"Start","t.actions":"Actions","t.loan":"Loan","t.date":"Date","t.status":"Status"
+  },
+  hi:{
+    "nav.home":"होम","nav.features":"फ़ीचर्स","nav.calculator":"ईएमआई कैलकुलेटर","nav.dashboard":"डैशबोर्ड","nav.contact":"संपर्क",
+    "hero.title":"स्मार्ट लोन और EMI मैनेजमेंट ऐप","hero.desc":"लोन ट्रैक करें, EMI मैनेज करें और रिवॉर्ड पाएं – सब एक ही प्रीमियम ऐप में।",
+    "stat.activeLoans":"सक्रिय लोन","stat.points":"रिवार्ड पॉइंट्स","stat.paidEmi":"भरी गई EMI",
+    "features.key":"मुख्य विशेषताएँ","features.calc":"आसान EMI कैलकुलेटर","features.track":"लोन ट्रैकिंग और रिमाइंडर","features.rewards":"समय पर भुगतान पर रिवार्ड","features.print":"स्टेटमेंट डाउनलोड/प्रिंट (PDF)","features.lang":"English/हिंदी + लाइट/डार्क मोड","features.roles":"सेलर व कस्टमर के अलग डैशबोर्ड",
+    "login.head":"लॉगिन / साइनअप","login.name":"पूरा नाम","login.role":"भूमिका चुनें","login.mobile":"मोबाइल","login.save":"सेव करें और जारी रखें","login.note":"यह डेमो लोकल लॉगिन है (कोई सर्वर नहीं)। आपका डेटा आपके डिवाइस में सेव होता है।",
+    "role.customer":"कस्टमर","role.seller":"सेलर",
+    "calc.title":"EMI कैलकुलेटर","calc.amount":"लोन राशि (₹)","calc.rate":"ब्याज दर (% वार्षिक)","calc.tenure":"अवधि (महीने)","calc.start":"आरंभ तिथि","calc.btn":"EMI निकालें","calc.add":"लोन के रूप में जोड़ें",
+    "dash.myLoans":"मेरे लोन","dash.history":"पेमेंट हिस्ट्री","dash.tip":"टिप: “Pay EMI” पर क्लिक कर महीने का भुगतान मार्क करें। समय पर भुगतान पर रिवार्ड मिलता है।","dash.csv":"CSV डाउनलोड","dash.pdf":"प्रिंट / PDF सेव","dash.remind":"EMI रिमाइंडर सेट करें (डेमो)",
+    "seller.panel":"सेलर पैनल","seller.desc":"आज प्राप्त कस्टमर लोन देखें और अप्रूव/रिजेक्ट करें (डेमो)।",
+    "rewards.title":"रिवार्ड्स","rewards.desc":"ड्यू डेट से पहले/उसी दिन EMI भरने पर हर बार <b>10 पॉइंट्स</b> मिलेंगे। 100 पॉइंट्स पर ₹100 रिडीम (डेमो)।",
+    "contact.title":"संपर्क करें","contact.phone":"फोन: +91 98765 43210",
+    "t.amount":"राशि","t.rate":"दर","t.tenure":"अवधि","t.emi":"EMI","t.start":"शुरुआत","t.actions":"एक्शन","t.loan":"लोन","t.date":"तारीख","t.status":"स्थिति"
+  }
+};
+function applyLang(){
+  const lang=document.getElementById('lang').value;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('
