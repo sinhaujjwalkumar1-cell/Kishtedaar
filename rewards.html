@@ -1,0 +1,25 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rewards • Kishtedaar</title><link rel="stylesheet" href="style.css"></head>
+<body onload="guard()">
+<div class="header">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <div class="brand"><div class="logo"></div><div class="name">Kishtedaar</div></div>
+    <div class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="calculator.html">EMI Calculator</a>
+      <a href="bills.html">EMI on Bill</a>
+      <a href="loans.html">Loans</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="products.html">Products</a>
+      <a href="support.html">Support</a>
+      <a href="#" onclick="signOut()" class="btn ghost" style="padding:6px 10px">Logout</a>
+    </div>
+  </div>
+</div>
+
+<div class="container"><div class="section card" style="padding:18px">
+<h2>Rewards</h2><p>Make on-time payments and earn points.</p>
+<div class="kpi"><div class="k"><strong id="rewardPts">820</strong><span>Current Points</span></div></div>
+<button class="btn" onclick="addReward()">Add 10 demo pts</button>
+</div></div><div class="footer container">© 2025 Kishtedaar • Secure. Simple. Smart.</div><script src="script.js"></script></body></html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kishtedaar • Dashboard</title><link rel="stylesheet" href="style.css"></head>
+<body onload="guard()">
+<div class="header">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <div class="brand"><div class="logo"></div><div class="name">Kishtedaar</div></div>
+    <div class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="calculator.html">EMI Calculator</a>
+      <a href="bills.html">EMI on Bill</a>
+      <a href="loans.html">Loans</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="products.html">Products</a>
+      <a href="support.html">Support</a>
+      <a href="#" onclick="signOut()" class="btn ghost" style="padding:6px 10px">Logout</a>
+    </div>
+  </div>
+</div>
+
+<div class="container"><div class="section">
+<h2>Hello, <span class="userName">User</span> 👋</h2>
+<p class="note">You are logged in as <b class="userRole">role</b>. This is a demo UI – actions are simulated.</p>
+<div class="kpi"><div class="k card"><strong>₹ 1,20,000</strong><span>Total Outstanding</span></div>
+<div class="k card"><strong>₹ 6,480</strong><span>This Month EMI</span></div>
+<div class="k card"><strong>820 pts</strong><span>Reward Points</span></div></div>
+<div class="grid cards">
+<a class="tile card" href="calculator.html"><img class="ico" src="icons/calculator.svg" alt="calculator"><h3>EMI Calculator</h3><p>Plan your EMIs instantly.</p></a>
+<a class="tile card" href="bills.html"><img class="ico" src="icons/bill.svg" alt="bill"><h3>EMI on Bill</h3><p>Convert bills to EMIs.</p></a>
+<a class="tile card" href="loans.html"><img class="ico" src="icons/loan.svg" alt="loans"><h3>Loan Tracking</h3><p>Active loans & status.</p></a>
+<a class="tile card" href="rewards.html"><img class="ico" src="icons/rewards.svg" alt="rewards"><h3>Rewards</h3><p>Earn for on-time payments.</p></a>
+<a class="tile card" href="closure.html"><img class="ico" src="icons/close.svg" alt="closure"><h3>Loan Closure</h3><p>Request closure in 1 tap.</p></a>
+<a class="tile card" href="products.html"><img class="ico" src="icons/products.svg" alt="products"><h3>Products</h3><p>Manage seller catalog.</p></a>
+<a class="tile card" href="support.html"><img class="ico" src="icons/support.svg" alt="support"><h3>Support</h3><p>Help & contact center.</p></a>
+</div></div></div><div class="footer container">© 2025 Kishtedaar • Secure. Simple. Smart.</div><script src="script.js"></script></body></html>

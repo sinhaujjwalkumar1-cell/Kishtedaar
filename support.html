@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support • Kishtedaar</title><link rel="stylesheet" href="style.css"></head>
+<body onload="guard()">
+<div class="header">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <div class="brand"><div class="logo"></div><div class="name">Kishtedaar</div></div>
+    <div class="nav">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="calculator.html">EMI Calculator</a>
+      <a href="bills.html">EMI on Bill</a>
+      <a href="loans.html">Loans</a>
+      <a href="rewards.html">Rewards</a>
+      <a href="products.html">Products</a>
+      <a href="support.html">Support</a>
+      <a href="#" onclick="signOut()" class="btn ghost" style="padding:6px 10px">Logout</a>
+    </div>
+  </div>
+</div>
+
+<div class="container"><div class="section card" style="padding:18px">
+<h2>Support & Contact</h2>
+<form onsubmit="submitTicket(event)" class="grid">
+<div class="field"><label>Name</label><input required placeholder="Your name"></div>
+<div class="field"><label>Email</label><input required type="email" placeholder="you@example.com"></div>
+<div class="field" style="grid-column:1/-1"><label>Message</label><textarea required rows="4" placeholder="Describe your issue"></textarea></div>
+<button class="btn" type="submit">Submit Ticket</button>
+</form>
+<p id="ticketOut" class="note" style="margin-top:10px">Our team replies within 24h (demo).</p>
+</div></div><div class="footer container">© 2025 Kishtedaar • Secure. Simple. Smart.</div><script src="script.js"></script></body></html>
