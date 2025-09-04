@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kishtedaar - Smart Loan & EMI App</title>
+  <title>Kishtedaar - Smart Loan & EMI Management</title>
   <style>
     body {
       margin: 0;
@@ -40,7 +40,7 @@
     }
     .hero h2 {
       color: gold;
-      font-size: 28px;
+      font-size: 30px;
       margin-bottom: 10px;
     }
     .hero p {
@@ -51,7 +51,7 @@
     }
     .features {
       text-align: left;
-      max-width: 600px;
+      max-width: 700px;
       margin: 40px auto;
       padding: 0 20px;
     }
@@ -63,6 +63,31 @@
     .features ul {
       list-style: disc;
       padding-left: 20px;
+      line-height: 1.8;
+    }
+    .cta {
+      margin: 40px auto;
+      padding: 20px;
+      background: #222;
+      border-radius: 12px;
+      max-width: 500px;
+    }
+    .cta h3 {
+      color: gold;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .cta button {
+      background: gold;
+      color: black;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .cta button:hover {
+      background: #d4af37;
     }
     footer {
       margin-top: 40px;
@@ -79,22 +104,40 @@
     <nav>
       <a href="#home">Home</a>
       <a href="#features">Features</a>
+      <a href="#emi">EMI on Bill</a>
       <a href="#contact">Contact</a>
     </nav>
   </header>
 
   <section class="hero" id="home">
     <h2>Smart Loan & EMI Management App</h2>
-    <p>Track loans, manage EMIs & earn rewards – all in one premium app.</p>
+    <p>Track your loans, manage EMIs & pay bills with EMI – all in one premium app.</p>
   </section>
 
   <section class="features" id="features">
     <h3>Key Features</h3>
     <ul>
       <li>Easy EMI Calculator</li>
-      <li>Loan Tracking & Reminders</li>
+      <li>Loan Tracking & Smart Reminders</li>
       <li>Reward Points for Timely Payments</li>
+      <li>Instant Loan Closure & History</li>
+      <li>Multi-language (English & Hindi)</li>
     </ul>
+  </section>
+
+  <section class="features" id="emi">
+    <h3>EMI on Bill Payments</h3>
+    <p>Convert your utility bills, shopping bills, or any major expense into easy monthly installments with one click.</p>
+    <ul>
+      <li>Electricity, Water & Gas Bills</li>
+      <li>Shopping & Electronics Purchases</li>
+      <li>Medical & Emergency Payments</li>
+    </ul>
+  </section>
+
+  <section class="cta">
+    <h3>Start Managing Your Loans Today</h3>
+    <button>Download Now</button>
   </section>
 
   <section class="features" id="contact">
@@ -102,45 +145,7 @@
     <p>Email: support@kishtedaar.com</p>
     <p>Phone: +91 98765 43210</p>
   </section>
-<section class="features" id="login">
-    <h3>Login / Signup</h3>
-    <p>Select your role to continue:</p>
-    <div style="display: flex; gap: 20px; justify-content: center; margin-top: 15px;">
-      <button style="padding: 10px 20px; background: gold; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
-        Seller Login
-      </button>
-      <button style="padding: 10px 20px; background: gold; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
-        Customer Login
-      </button>
-    </div>
-</section>
-<section class="features" id="calculator">
-    <h3>EMI Calculator</h3>
-    <p>Enter your loan details to calculate EMI:</p>
-    <form onsubmit="calculateEMI(event)" style="margin-top: 15px;">
-      <label>Loan Amount (₹):</label><br>
-      <input type="number" id="amount" style="padding: 8px; width: 200px; margin: 5px;"><br>
-      <label>Interest Rate (% per annum):</label><br>
-      <input type="number" id="rate" style="padding: 8px; width: 200px; margin: 5px;"><br>
-      <label>Tenure (months):</label><br>
-      <input type="number" id="tenure" style="padding: 8px; width: 200px; margin: 5px;"><br>
-      <button type="submit" style="padding: 10px 20px; background: gold; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
-        Calculate EMI
-      </button>
-    </form>
-    <p id="emiResult" style="margin-top: 15px; font-size: 18px; color: gold;"></p>
-  </section>
 
-  <script>
-    function calculateEMI(event) {
-      event.preventDefault();
-      let amount = parseFloat(document.getElementById('amount').value);
-      let rate = parseFloat(document.getElementById('rate').value) / 12 / 100;
-      let tenure = parseInt(document.getElementById('tenure').value);
-      let emi = (amount * rate * Math.pow(1 + rate, tenure)) / (Math.pow(1 + rate, tenure) - 1);
-      document.getElementById('emiResult').textContent = 'Your EMI: ₹' + emi.toFixed(2);
-    }
-  </script>
   <footer>
     &copy; 2025 Kishtedaar. All rights reserved.
   </footer>
