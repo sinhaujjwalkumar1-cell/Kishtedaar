@@ -1,0 +1,1635 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Service by Local - Complete Solution</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2ecc71;
+            --primary-dark: #27ae60;
+            --primary-light: #e8f6ef;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ffffff;
+            --dark: #2c3e50;
+            --gray: #7f8c8d;
+            --light-gray: #f5f7f8;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+            --border-radius: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background-color: var(--light-gray);
+            color: var(--dark);
+            padding-bottom: 80px;
+            overflow-x: hidden;
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 18px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+        }
+        
+        .location-selector {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 25px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .location-selector:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        .location-selector i {
+            margin-right: 8px;
+        }
+        
+        /* Search Bar Styles */
+        .search-container {
+            padding: 15px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+        
+        .search-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: var(--light-gray);
+            border-radius: 30px;
+            padding: 12px 18px;
+            margin-right: 15px;
+            transition: var(--transition);
+        }
+        
+        .search-bar:focus-within {
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+        
+        .search-bar input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 5px;
+            outline: none;
+            font-size: 16px;
+        }
+        
+        .icon-button {
+            background: none;
+            border: none;
+            color: var(--primary);
+            font-size: 22px;
+            margin-left: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .icon-button:hover {
+            background: var(--primary-light);
+            transform: scale(1.1);
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--accent);
+            color: white;
+            font-size: 10px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Categories Section */
+        .section-title {
+            padding: 20px 15px 10px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .view-all {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 10px 15px 20px;
+            background: white;
+        }
+        
+        .category-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            border-radius: var(--border-radius);
+            background: var(--light);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .category-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .category-name {
+            font-size: 13px;
+            text-align: center;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        /* Services Near You */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 20px 15px;
+            background: var(--light-gray);
+        }
+        
+        .service-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .service-image {
+            height: 160px;
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://placehold.co/600x400/2ecc71/white?text=Service+Image');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            padding: 10px;
+            color: white;
+            position: relative;
+        }
+        
+        .rating {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .rating i {
+            color: #f1c40f;
+            margin-right: 4px;
+        }
+        
+        .service-details {
+            padding: 15px;
+        }
+        
+        .service-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+        
+        .service-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .distance {
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
+        .distance i {
+            margin-right: 5px;
+        }
+        
+        .call-button {
+            color: white;
+            background: var(--primary);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .call-button:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        .provider-info {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        
+        .provider-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            margin-right: 10px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .provider-details {
+            flex: 1;
+        }
+        
+        .provider-name {
+            font-size: 14px;
+            color: var(--dark);
+            font-weight: 500;
+        }
+        
+        .provider-address {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--gray);
+            font-size: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+        }
+        
+        .nav-item.active {
+            color: var(--primary);
+        }
+        
+        .nav-item:hover {
+            color: var(--primary);
+        }
+        
+        .nav-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+        
+        .add-service {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            bottom: 15px;
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 101;
+        }
+        
+        .add-service:hover {
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.6);
+        }
+        
+        /* Add Service Page Styles */
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .form-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .form-subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .form-body {
+            padding: 20px;
+        }
+        
+        .form-section {
+            margin-bottom: 24px;
+            animation: slideIn 0.5s ease;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .section-title-form {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-title-form i {
+            margin-right: 10px;
+            color: var(--primary);
+        }
+        
+        .form-group {
+            margin-bottom: 16px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--dark);
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 16px;
+            background: white;
+            transition: var(--transition);
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+        
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 16px;
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 12px;
+            margin-top: 8px;
+        }
+        
+        .category-item-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .category-item-form:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+        
+        .category-item-form.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+        }
+        
+        .category-icon-form {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 8px;
+            font-size: 20px;
+            color: var(--dark);
+        }
+        
+        .category-name-form {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 8px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            background: var(--light-gray);
+        }
+        
+        .checkbox-item input {
+            margin-right: 8px;
+        }
+        
+        .form-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            margin-top: 8px;
+        }
+        
+        .form-button:hover {
+            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        /* Success Page Styles */
+        .success-screen {
+            text-align: center;
+            padding: 30px 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .success-icon {
+            font-size: 60px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .success-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-dark);
+        }
+        
+        .success-benefits {
+            text-align: left;
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--primary-light);
+            border-radius: 10px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        
+        .benefit-item i {
+            color: var(--primary);
+            margin-right: 10px;
+            margin-top: 4px;
+        }
+        
+        .add-more-btn {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+        }
+        
+        .add-more-btn:hover {
+            background: var(--primary-light);
+        }
+        
+        /* Service Detail Page */
+        .service-detail-header {
+            height: 250px;
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://placehold.co/600x400/2ecc71/white?text=Service+Image');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
+            color: white;
+        }
+        
+        .service-detail-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .service-detail-meta {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .service-detail-rating {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+            font-size: 16px;
+        }
+        
+        .service-detail-rating i {
+            color: #f1c40f;
+            margin-right: 5px;
+        }
+        
+        .service-detail-distance {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+        }
+        
+        .service-detail-distance i {
+            margin-right: 5px;
+        }
+        
+        .service-detail-content {
+            padding: 20px;
+        }
+        
+        .service-detail-section {
+            margin-bottom: 25px;
+        }
+        
+        .service-detail-section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+        
+        .provider-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+        
+        .provider-card-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 24px;
+            font-weight: 700;
+            margin-right: 15px;
+        }
+        
+        .provider-card-details {
+            flex: 1;
+        }
+        
+        .provider-card-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .provider-card-address {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .provider-form-details {
+            margin-top: 15px;
+            padding: 15px;
+            background: var(--light-gray);
+            border-radius: var(--border-radius);
+        }
+        
+        .detail-item {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            min-width: 120px;
+            color: var(--dark);
+        }
+        
+        .detail-value {
+            flex: 1;
+            color: var(--gray);
+        }
+        
+        .action-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .action-button {
+            padding: 15px;
+            border-radius: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .action-button.call {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .action-button.message {
+            background: var(--light-gray);
+            color: var(--dark);
+        }
+        
+        .action-button i {
+            margin-right: 8px;
+        }
+        
+        .action-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .categories {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .action-buttons {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-card {
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-hands-helping"></i>
+                Service by Local
+            </div>
+            <div class="location-selector">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>Mihijam</span>
+            </div>
+        </div>
+        
+        <!-- Search Bar Section -->
+        <div class="search-container">
+            <div class="search-bar">
+                <i class="fas fa-search" style="color: #888; margin-right: 10px;"></i>
+                <input type="text" placeholder="Search for services..." id="search-input">
+            </div>
+            <button class="icon-button" id="favorites-btn">
+                <i class="far fa-heart"></i>
+            </button>
+            <button class="icon-button" id="notifications-btn">
+                <i class="far fa-bell"></i>
+                <span class="notification-badge">3</span>
+            </button>
+        </div>
+        
+        <!-- Categories Section -->
+        <div class="section-title">
+            <span>Popular Categories</span>
+            <span class="view-all" id="view-all-categories">View All</span>
+        </div>
+        <div class="categories">
+            <div class="category-item" data-category="home" style="animation-delay: 0.1s;">
+                <div class="category-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="category-name">Home Services</div>
+            </div>
+            <div class="category-item" data-category="construction" style="animation-delay: 0.2s;">
+                <div class="category-icon">
+                    <i class="fas fa-hard-hat"></i>
+                </div>
+                <div class="category-name">Construction</div>
+            </div>
+            <div class="category-item" data-category="tech" style="animation-delay: 0.3s;">
+                <div class="category-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <div class="category-name">Tech Support</div>
+            </div>
+            <div class="category-item" data-category="vehicle" style="animation-delay: 0.4s;">
+                <div class="category-icon">
+                    <i class="fas fa-car"></i>
+                </div>
+                <div class="category-name">Vehicle Repair</div>
+            </div>
+            <div class="category-item" data-category="erickshaw" style="animation-delay: 0.5s;">
+                <div class="category-icon">
+                    <i class="fas fa-rickshaw"></i>
+                </div>
+                <div class="category-name">E-Rickshaw</div>
+            </div>
+            <div class="category-item" data-category="tution" style="animation-delay: 0.6s;">
+                <div class="category-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="category-name">Tuition</div>
+            </div>
+            <div class="category-item" data-category="mehndi" style="animation-delay: 0.7s;">
+                <div class="category-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <div class="category-name">Mehndi Artist</div>
+            </div>
+            <div class="category-item" data-category="tankcleaning" style="animation-delay: 0.8s;">
+                <div class="category-icon">
+                    <i class="fas fa-fill-drip"></i>
+                </div>
+                <div class="category-name">Tank Cleaning</div>
+            </div>
+        </div>
+        
+        <!-- Services Near You -->
+        <div class="section-title">
+            <span>Services Near You</span>
+            <span class="view-all" id="view-all-services">View All</span>
+        </div>
+        <div class="services-grid" id="services-container">
+            <!-- Services will be dynamically added here -->
+        </div>
+    </div>
+    
+    <!-- Service Detail Page -->
+    <div id="service-detail-page" class="page">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-arrow-left" id="back-from-detail"></i>
+                <span style="margin-left: 15px;">Service Details</span>
+            </div>
+        </div>
+        
+        <div class="service-detail-header">
+            <h1 class="service-detail-title" id="detail-service-name">Plumbing Repair</h1>
+            <div class="service-detail-meta">
+                <div class="service-detail-rating">
+                    <i class="fas fa-star"></i>
+                    <span id="detail-service-rating">4.8</span>
+                </div>
+                <div class="service-detail-distance">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span id="detail-service-distance">5 min away</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="service-detail-content">
+            <div class="provider-card">
+                <div class="provider-card-avatar" id="detail-provider-avatar">R</div>
+                <div class="provider-card-details">
+                    <div class="provider-card-name" id="detail-provider-name">Rajesh Kumar</div>
+                    <div class="provider-card-address" id="detail-provider-address">Krishna Nagar, Mihijam</div>
+                    
+                    <div class="provider-form-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Experience:</span>
+                            <span class="detail-value">10 years</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Services:</span>
+                            <span class="detail-value">Plumbing, Pipe Repair, Faucet Installation</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Availability:</span>
+                            <span class="detail-value">Mon-Sun, 8AM-8PM</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Contact:</span>
+                            <span class="detail-value">+91 9876543210</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <div class="action-button call">
+                            <i class="fas fa-phone"></i>
+                            Call Now
+                        </div>
+                        <div class="action-button message">
+                            <i class="fas fa-comment"></i>
+                            Message
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-detail-section">
+                <h3 class="service-detail-section-title">Service Description</h3>
+                <p id="detail-service-description">Professional plumbing services for all types of repairs including pipe leaks, faucet installation, toilet repairs, and drainage issues. With over 10 years of experience, we provide quick and reliable service.</p>
+            </div>
+            
+            <div class="service-detail-section">
+                <h3 class="service-detail-section-title">More Services by This Provider</h3>
+                <div class="services-grid" id="provider-services-container">
+                    <!-- More services by this provider will be added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Service Page -->
+    <div id="add-service-page" class="page">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-arrow-left" id="back-from-add"></i>
+                <span style="margin-left: 15px;">Add Your Service</span>
+            </div>
+        </div>
+        
+        <div class="form-card">
+            <div class="form-header">
+                <h1 class="form-title">Add Your Service</h1>
+                <p class="form-subtitle">Reach thousands of customers in your area</p>
+            </div>
+            
+            <div class="form-body">
+                <div class="form-section">
+                    <div class="section-title-form">
+                        <i class="fas fa-list"></i>
+                        Select Category
+                    </div>
+                    
+                    <div class="category-grid">
+                        <div class="category-item-form" data-category="home">
+                            <div class="category-icon-form">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <div class="category-name-form">Home Services</div>
+                        </div>
+                        
+                        <div class="category-item-form" data-category="construction">
+                            <div class="category-icon-form">
+                                <i class="fas fa-hard-hat"></i>
+                            </div>
+                            <div class="category-name-form">Construction</div>
+                        </div>
+                        
+                        <div class="category-item-form" data-category="tech">
+                            <div class="category-icon-form">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div class="category-name-form">Tech Support</div>
+                        </div>
+                        
+                        <div class="category-item-form" data-category="vehicle">
+                            <div class="category-icon-form">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div class="category-name-form">Vehicle Repair</div>
+                        </div>
+                        
+                        <div class="category-item-form" data-category="erickshaw">
+                            <div class="category-icon-form">
+                                <i class="fas fa-rickshaw"></i>
+                            </div>
+                            <div class="category-name-form">E-Rickshaw</div>
+                        </div>
+                        
+                        <div class="category-item-form" data-category="tution">
+                            <div class="category-icon-form">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="category-name-form">Tuition</div>
+                        </div>
+                    </div>
+                    
+                    <input type="hidden" id="selected-category" value="">
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title-form">
+                        <i class="fas fa-tags"></i>
+                        Select Sub Categories
+                    </div>
+                    
+                    <div class="checkbox-group" id="sub-category-container">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sub-plumbing">
+                            <label for="sub-plumbing">Plumbing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sub-electrical">
+                            <label for="sub-electrical">Electrical</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sub-carpentry">
+                            <label for="sub-carpentry">Carpentry</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title-form">
+                        <i class="fas fa-info-circle"></i>
+                        Service Details
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Service Title</label>
+                        <input type="text" class="form-input" id="service-title" placeholder="e.g., Professional Plumbing Service">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Service Description</label>
+                        <textarea class="form-textarea" placeholder="Describe your service in detail..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title-form">
+                        <i class="fas fa-user"></i>
+                        Your Information
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" placeholder="Enter your name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Mobile Number</label>
+                        <input type="tel" class="form-input" id="mobile-number" placeholder="10-digit mobile number">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">WhatsApp Number</label>
+                        <input type="tel" class="form-input" id="whatsapp-number" placeholder="10-digit WhatsApp number">
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title-form">
+                        <i class="fas fa-map-marker-alt"></i>
+                        Location
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Full Address</label>
+                        <textarea class="form-textarea" placeholder="Enter your complete address"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">City</label>
+                        <input type="text" class="form-input" placeholder="Enter your city">
+                    </div>
+                </div>
+                
+                <button type="submit" class="form-button" id="submit-service-btn">
+                    <i class="fas fa-plus-circle"></i> Add Service
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Page -->
+    <div id="success-page" class="page">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-hands-helping"></i>
+                Service by Local
+            </div>
+        </div>
+        
+        <div class="form-card">
+            <div class="success-screen">
+                <div class="success-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                
+                <h2 class="success-title">Congratulations!</h2>
+                <p>Your service has been successfully listed on our platform.</p>
+                
+                <div class="success-benefits">
+                    <h3 style="margin-bottom: 15px; color: var(--primary-dark);">Benefits of Service by Local:</h3>
+                    
+                    <div class="benefit-item">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span><strong>0% Commission:</strong> सारा पैसा सीधे आपकी जेब में जाएगा</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <i class="fas fa-users"></i>
+                        <span><strong>1000+ Reach:</strong> आसपास के सैकड़ों ग्राहकों तक पहुंच</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <i class="fas fa-phone"></i>
+                        <span><strong>Direct Contact:</strong> ग्राहक सीधे आपसे संपर्क कर सकते हैं</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <i class="fas fa-chart-line"></i>
+                        <span><strong>कमाई बढ़ेगी:</strong> अधिक ग्राहक मिलने से आय में वृद्धि</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span><strong>Location Visibility:</strong> ग्राहक देख सकते हैं कि आप उनसे केवल 2, 5 या 10 मिनट दूर हैं</span>
+                    </div>
+                </div>
+                
+                <div class="success-benefits">
+                    <h3 style="margin-bottom: 15px; color: var(--primary-dark);">अधिक सेवाएँ जोड़ने के लाभ:</h3>
+                    
+                    <div class="benefit-item">
+                        <i class="fas fa-search"></i>
+                        <span>आपकी प्रोफाइल अधिक खोज परिणामों में दिखाई देगी</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <i class="fas fa-eye"></i>
+                        <span>आपकी दृश्यता और ग्राहक पहुंच बढ़ेगी</span>
+                    </div>
+                    
+                    <div class="benefit-item">
+                        <i class="fas fa-award"></i>
+                        <span>आप स्वयं को बहु-सेवा प्रदाता के रूप में स्थापित कर सकते हैं</span>
+                    </div>
+                </div>
+                
+                <button class="add-more-btn" id="add-more-btn">
+                    <i class="fas fa-plus"></i> Add More Services
+                </button>
+                
+                <button class="form-button" id="view-profile-btn" style="margin-top: 10px;">
+                    <i class="fas fa-user"></i> View Your Profile
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <div class="nav-item active" data-page="home-page">
+            <div class="nav-icon">
+                <i class="fas fa-home"></i>
+            </div>
+            <div>Home</div>
+        </div>
+        <div class="nav-item" data-page="history-page">
+            <div class="nav-icon">
+                <i class="fas fa-history"></i>
+            </div>
+            <div>History</div>
+        </div>
+        <div class="add-service" id="open-add-service">
+            <i class="fas fa-plus"></i>
+        </div>
+        <div class="nav-item" data-page="account-page">
+            <div class="nav-icon">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>Account</div>
+        </div>
+        <div class="nav-item" data-page="more-page">
+            <div class="nav-icon">
+                <i class="fas fa-ellipsis-h"></i>
+            </div>
+            <div>More</div>
+        </div>
+    </div>
+
+    <script>
+        // Sample service data
+        const services = [
+            { 
+                id: 1, 
+                name: "Plumbing Repair", 
+                provider: "Rajesh Kumar", 
+                address: "Krishna Nagar, Mihijam", 
+                distance: "5 min", 
+                rating: 4.8,
+                initial: "R",
+                category: "home",
+                description: "Professional plumbing services for all types of repairs including pipe leaks, faucet installation, toilet repairs, and drainage issues. With over 10 years of experience, we provide quick and reliable service.",
+                experience: "10 years",
+                services: "Plumbing, Pipe Repair, Faucet Installation",
+                availability: "Mon-Sun, 8AM-8PM",
+                contact: "+91 9876543210"
+            },
+            { 
+                id: 2, 
+                name: "Electrical Services", 
+                provider: "Suresh Singh", 
+                address: "Gandhi Road, Mihijam", 
+                distance: "10 min", 
+                rating: 4.5,
+                initial: "S",
+                category: "home",
+                description: "Complete electrical solutions including wiring, switchboard installation, fuse issues, and appliance repairs. Certified electricians with 8+ years of experience.",
+                experience: "8 years",
+                services: "Electrical Wiring, Switchboard Installation, Appliance Repair",
+                availability: "Mon-Sat, 9AM-6PM",
+                contact: "+91 9876543211"
+            },
+            { 
+                id: 3, 
+                name: "Carpentry Work", 
+                provider: "Mohan Lal", 
+                address: "Nehru Colony, Mihijam", 
+                distance: "15 min", 
+                rating: 4.7,
+                initial: "M",
+                category: "home",
+                description: "Expert carpentry services for furniture repair, custom woodwork, door/window installation, and all types of wooden structure repairs.",
+                experience: "12 years",
+                services: "Furniture Repair, Custom Woodwork, Door Installation",
+                availability: "Mon-Sun, 9AM-7PM",
+                contact: "+91 9876543212"
+            },
+            { 
+                id: 4, 
+                name: "Home Painting", 
+                provider: "Rajesh Kumar", 
+                address: "Krishna Nagar, Mihijam", 
+                distance: "8 min", 
+                rating: 4.6,
+                initial: "R",
+                category: "home",
+                description: "Interior and exterior painting services with premium quality paints. Wall preparation, texture painting, and waterproofing services available.",
+                experience: "10 years",
+                services: "Interior Painting, Exterior Painting, Waterproofing",
+                availability: "Mon-Sun, 8AM-8PM",
+                contact: "+91 9876543210"
+            },
+            { 
+                id: 5, 
+                name: "AC Repair", 
+                provider: "Rajesh Kumar", 
+                address: "Krishna Nagar, Mihijam", 
+                distance: "12 min", 
+                rating: 4.9,
+                initial: "R",
+                category: "home",
+                description: "AC installation, servicing, and repair for all brands. Gas refilling, compressor repair, and regular maintenance services available.",
+                experience: "10 years",
+                services: "AC Installation, AC Servicing, Gas Refilling",
+                availability: "Mon-Sun, 8AM-8PM",
+                contact: "+91 9876543210"
+            }
+        ];
+
+        // DOM elements
+        const servicesContainer = document.getElementById('services-container');
+        const providerServicesContainer = document.getElementById('provider-services-container');
+        const searchInput = document.getElementById('search-input');
+        const navItems = document.querySelectorAll('.nav-item');
+        const pages = document.querySelectorAll('.page');
+        const openAddServiceBtn = document.getElementById('open-add-service');
+        const backFromDetail = document.getElementById('back-from-detail');
+        const backFromAdd = document.getElementById('back-from-add');
+        const submitServiceBtn = document.getElementById('submit-service-btn');
+        const addMoreBtn = document.getElementById('add-more-btn');
+        const viewProfileBtn = document.getElementById('view-profile-btn');
+        const categoryItemsForm = document.querySelectorAll('.category-item-form');
+
+        // Current selected service for detail view
+        let currentService = null;
+
+        // Initialize the page
+        function init() {
+            renderServices(services);
+            setupEventListeners();
+            
+            // Add animation delays to category items
+            document.querySelectorAll('.category-item').forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Add animation delays to service cards
+            document.querySelectorAll('.service-card').forEach((item, index) => {
+                item.style.animationDelay = `${index * 0.1}s`;
+            });
+        }
+
+        // Render services
+        function renderServices(servicesToRender) {
+            servicesContainer.innerHTML = '';
+            
+            if (servicesToRender.length === 0) {
+                servicesContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px 20px;">
+                        <i class="fas fa-search" style="font-size: 48px; color: var(--gray); margin-bottom: 15px;"></i>
+                        <h3 style="color: var(--gray);">No services found</h3>
+                        <p style="color: var(--gray);">Try adjusting your search criteria</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            servicesToRender.forEach((service, index) => {
+                const serviceCard = document.createElement('div');
+                serviceCard.className = 'service-card';
+                serviceCard.style.animationDelay = `${index * 0.1}s`;
+                serviceCard.innerHTML = `
+                    <div class="service-image">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>${service.rating}</span>
+                        </div>
+                    </div>
+                    <div class="service-details">
+                        <div class="service-name">${service.name}</div>
+                        <div class="service-meta">
+                            <span class="distance">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${service.distance} away
+                            </span>
+                            <button class="call-button">
+                                <i class="fas fa-phone"></i>
+                            </button>
+                        </div>
+                        <div class="provider-info">
+                            <div class="provider-avatar">${service.initial}</div>
+                            <div class="provider-details">
+                                <div class="provider-name">${service.provider}</div>
+                                <div class="provider-address">${service.address}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add click event to service card
+                serviceCard.addEventListener('click', () => {
+                    showServiceDetail(service);
+                });
+                
+                servicesContainer.appendChild(serviceCard);
+            });
+        }
+
+        // Show service detail
+        function showServiceDetail(service) {
+            currentService = service;
+            
+            // Update detail page content
+            document.getElementById('detail-service-name').textContent = service.name;
+            document.getElementById('detail-service-rating').textContent = service.rating;
+            document.getElementById('detail-service-distance').textContent = `${service.distance} away`;
+            document.getElementById('detail-provider-avatar').textContent = service.initial;
+            document.getElementById('detail-provider-name').textContent = service.provider;
+            document.getElementById('detail-provider-address').textContent = service.address;
+            document.getElementById('detail-service-description').textContent = service.description;
+            
+            // Show provider's other services
+            const providerServices = services.filter(s => 
+                s.provider === service.provider && s.id !== service.id
+            ).slice(0, 4);
+            
+            renderProviderServices(providerServices);
+            
+            // Show the detail page
+            showPage('service-detail-page');
+        }
+
+        // Render provider services
+        function renderProviderServices(servicesToRender) {
+            providerServicesContainer.innerHTML = '';
+            
+            if (servicesToRender.length === 0) {
+                providerServicesContainer.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 20px; color: var(--gray);">
+                        No other services found from this provider
+                    </div>
+                `;
+                return;
+            }
+            
+            servicesToRender.forEach(service => {
+                const serviceCard = document.createElement('div');
+                serviceCard.className = 'service-card';
+                serviceCard.innerHTML = `
+                    <div class="service-image">
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <span>${service.rating}</span>
+                        </div>
+                    </div>
+                    <div class="service-details">
+                        <div class="service-name">${service.name}</div>
+                        <div class="service-meta">
+                            <span class="distance">
+                                <i class="fas fa-map-marker-alt"></i>
+                                ${service.distance} away
+                            </span>
+                        </div>
+                        <div class="provider-info">
+                            <div class="provider-avatar">${service.initial}</div>
+                            <div class="provider-details">
+                                <div class="provider-name">${service.provider}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Add click event to service card
+                serviceCard.addEventListener('click', () => {
+                    showServiceDetail(service);
+                });
+                
+                providerServicesContainer.appendChild(serviceCard);
+            });
+        }
+
+        // Show specific page
+        function showPage(pageId) {
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update active nav item
+            navItems.forEach(item => {
+                if (item.getAttribute('data-page') === pageId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Navigation items
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const pageId = item.getAttribute('data-page');
+                    showPage(pageId);
+                });
+            });
+            
+            // Open add service page
+            openAddServiceBtn.addEventListener('click', () => {
+                showPage('add-service-page');
+            });
+            
+            // Back from detail page
+            backFromDetail.addEventListener('click', () => {
+                showPage('home-page');
+            });
+            
+            // Back from add service page
+            backFromAdd.addEventListener('click', () => {
+                showPage('home-page');
+            });
+            
+            // Submit service
+            submitServiceBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                showPage('success-page');
+            });
+            
+            // Add more services from success page
+            addMoreBtn.addEventListener('click', () => {
+                showPage('add-service-page');
+            });
+            
+            // View profile from success page
+            viewProfileBtn.addEventListener('click', () => {
+                alert('Profile page would be shown here');
+            });
+            
+            // Category selection in add service page
+            categoryItemsForm.forEach(item => {
+                item.addEventListener('click', () => {
+                    categoryItemsForm.forEach(i => i.classList.remove('selected'));
+                    item.classList.add('selected');
+                });
+            });
+            
+            // Search functionality
+            searchInput.addEventListener('input', filterServices);
+        }
+
+        // Filter services based on search input
+        function filterServices() {
+            const searchText = searchInput.value.toLowerCase();
+            const filteredServices = services.filter(service => 
+                service.name.toLowerCase().includes(searchText) ||
+                service.provider.toLowerCase().includes(searchText) ||
+                service.category.toLowerCase().includes(searchText)
+            );
+            renderServices(filteredServices);
+        }
+
+        // Initialize the application
+        init();
+    </script>
+</body>
+</html>
